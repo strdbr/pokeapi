@@ -42,19 +42,23 @@ class App extends React.Component{
   takeNumber = (e) => {
     e.preventDefault();
     console.log(this.myInput.current.value);
-    const url = apiData.apiUrl + apiData.endpoint + this.myInput.current.value;
-    fetch(url)
-        .then((data) => data.json())
-        .then((pokemon) => {
-            this.setState({
-              pokeName: pokemon.name,
-              pokeImg: pokemon.sprites.front_default
-            })
-            console.log(pokemon.name, pokemon.sprites.front_default)
-        })
-        .catch((err) => {
-            console.error(err);
-        })
+    if(this.myInput.current.value > 0 && this.myInput.current.value <= 898){
+      const url = apiData.apiUrl + apiData.endpoint + this.myInput.current.value;
+      fetch(url)
+          .then((data) => data.json())
+          .then((pokemon) => {
+              this.setState({
+                pokeName: pokemon.name,
+                pokeImg: pokemon.sprites.front_default
+              })
+              console.log(pokemon.name, pokemon.sprites.front_default)
+          })
+          .catch((err) => {
+              console.error(err);
+          })
+    } else {
+      alert('Error, ese Pokemon no existe');
+    }
   }
   render(){
 
@@ -99,7 +103,7 @@ class App extends React.Component{
         <Modal.Dialog>
           <div className='col align-self-center'>
             <Modal.Body>
-              <img src={this.state.pokeImg} className='card imgSize' />
+              <img src={this.state.pokeImg} className='card imgSize' alt='Poke' />
               <p className="fs-3 text-center pokemonName text-capitalize">{this.state.pokeName}</p>
             </Modal.Body>
           </div>
